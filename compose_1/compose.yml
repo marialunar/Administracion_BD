@@ -1,0 +1,22 @@
+name: laboratorio_docker
+services:
+  sql_server: # Nombre del servicio (faltaba este nivel)
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server_primero
+    environment: # Corregido: llevaba una 'n' extra (environment)
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      MSSQL_SA_PASSWORD: "Password123!"
+      MSSQL_AGENT_ENABLED: true
+    ports:
+      - "1438:1433"
+    volumes:
+      - sql_volumen_datos:/var/opt/mssql #cambiamos la ruta para mantener el contenedor como non-root
+      # Ruta de Windows ajustada con barras hacia adelante para mayor compatibilidad
+      - "C:/Users/Aula 8 - alumno/Documents/Mariale/ABD_Noche/Backups_Docker:/var/opt/mssql/backups"
+
+volumes:
+  sql_volumen_datos:
+
+  # para levantar el entorno, debemos estar dentro de la carpeta del archivo compose y ejecutar docker compose up -d
+  # con docker compose ps verificamos que haya quedado levantado
